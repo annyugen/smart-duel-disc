@@ -12,7 +12,7 @@ const styles = theme => ({
   });
   
 
-function LifePointContainer({ playerName, lifePoint }) {
+function LifePointContainer({ playerName, lifePoint, setLifePoint }) {
     return (
       <Card sx={{ minWidth: 350 }}>
         <CardContent>
@@ -23,7 +23,7 @@ function LifePointContainer({ playerName, lifePoint }) {
             {lifePoint}
           </Typography>
         </CardContent>
-        <LifePointCalculator />
+        <LifePointCalculator currentLifePoint={lifePoint} setLifePoint={setLifePoint}/>
       </Card>
     );
   }

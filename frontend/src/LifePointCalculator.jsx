@@ -7,9 +7,6 @@ import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
-import IconButton from '@mui/material/IconButton';
-import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
-
 
 const style = {
     position: 'absolute',
@@ -17,22 +14,23 @@ const style = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: 400,
-    bgcolor: 'primary.main',
+    bgcolor: '#424242',
     opcaity: 2,
     border: '2px solid #000',
     boxShadow: 24,
     p: 4,
 };
 
-function LifePointCalculator() {
+function LifePointCalculator({ currentLifePoint, setLifePoint }) {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
+    const [newLifePoint, setNewLifePoint] = useState(currentLifePoint);
+
     return (
         <>
             <Button variant='contained' onClick={handleOpen}>Calculate</Button>
-
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -40,30 +38,40 @@ function LifePointCalculator() {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <Typography id="modal-modal-title" variant="h6" component="h2">
+                    <Typography id="modal-modal-title" variant="h4" component="h2">
                         Calculator
                     </Typography>
                     <TextField
                         id="outlined-number"
-                        label="Life Point"
+                        label="Life Point Change"
                         type="number"
+                        onChange={(event) => {
+                            let newLP = currentLifePoint + Number(event.target.value)
+                            setNewLifePoint(newLP)
+                        }}
                     />
-                    <IconButton color="secondary" aria-label="add an alarm">
-                        <RemoveCircleIcon />
-                    </IconButton>
                     <Grid flexGrow={1} container spacing={12} maxHeight={false} alignItems="center" justifyContent="center">
                         <Grid size={6}>
-                            <Typography variant="h5" component="div">
-                                Current LP: 
+                            <Typography variant="h6" component="div">
+                                Current LP
                             </Typography>
-                            <Typography variant="h5" component="div">
-                                Updated LP: 
+                            <Typography variant="h6" component="div">
+                                {currentLifePoint}
                             </Typography>
                         </Grid>
                         <Grid size={6}>
-                            
+                            <Typography variant="h6" component="div">
+                                Updated LP
+                            </Typography>
+                            <Typography variant="h6" component="div">
+                                {newLifePoint}
+                            </Typography>
                         </Grid>
                     </Grid>
+                    <Button variant='contained' onClick={() => {
+                        setLifePoint(newLifePoint);
+                        handleClose();
+                    }}> Confirm Change</Button>
                 </Box>
             </Modal>
         </>

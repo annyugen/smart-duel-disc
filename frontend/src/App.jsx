@@ -5,7 +5,9 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
+
 import LifePointContainer from './LifePointContainer';
+import PostGamePopup from './PostGamePopup';
 
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -27,6 +29,21 @@ function App() {
   const [playerName2, setPLayerName2] = useState('Player 2')
   const [lifePoint1, setLifePoint1] = useState(8000)
   const [lifePoint2, setLifePoint2] = useState(8000)
+  const [winner, setWinner] = useState("");
+  const [loser, setLoser] = useState("");
+  const [isGameOver, setIsGameOver] = useState(false)
+
+  if (lifePoint1 <=0) {
+    setWinner(playerName2)
+    setLoser(playerName1)
+    setLifePoint1(1) // without this going to be a infinite loop bug. TODO: Find a better way to achieve this
+    setIsGameOver(true)
+  } else if (lifePoint2 <= 0) {
+    setWinner(playerName1)
+    setLoser(playerName2)
+    setLifePoint2(1)
+    setIsGameOver(true)
+  }
 
   return (
     <ThemeProvider theme={darkTheme}>
@@ -39,12 +56,17 @@ function App() {
       >
         <Grid flexGrow={1} container spacing={12} maxHeight={false} alignItems="center" justifyContent="center">
           <Grid size={6}>
-            <LifePointContainer playerName={playerName1} lifePoint={lifePoint1} />
+            <LifePointContainer playerName={playerName1} lifePoint={lifePoint1} setLifePoint={setLifePoint1} />
           </Grid>
           <Grid size={6}>
-            <LifePointContainer playerName={playerName2} lifePoint={lifePoint2} />
+            <LifePointContainer playerName={playerName2} lifePoint={lifePoint2} setLifePoint={setLifePoint2}/>
           </Grid>
         </Grid>
+        <PostGamePopup 
+          winner={winner}
+          loser={loser}
+          isGameOver={isGameOver}
+        />
       </Container>
     </ThemeProvider>
   )
