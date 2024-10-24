@@ -37,7 +37,6 @@ const victoryStyle = {
 function PostGamePopup({ winner, loser, isGameOver }) {
     const [open, setOpen] = useState(false);
     const handleClose = () => setOpen(false);
-    console.log("Gameover " + isGameOver)
 
     React.useEffect(() => {
         setOpen(isGameOver)

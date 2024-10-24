@@ -8,6 +8,7 @@ import Toolbar from '@mui/material/Toolbar';
 
 import LifePointContainer from './LifePointContainer';
 import PostGamePopup from './PostGamePopup';
+import NewGameModal from './NewGameModal';
 
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -25,15 +26,15 @@ const styles = theme => ({
 });
 
 function App() {
-  const [playerName1, setPLayerName1] = useState('Player 1')
-  const [playerName2, setPLayerName2] = useState('Player 2')
+  const [playerName1, setPlayerName1] = useState('Player 1')
+  const [playerName2, setPlayerName2] = useState('Player 2')
   const [lifePoint1, setLifePoint1] = useState(8000)
   const [lifePoint2, setLifePoint2] = useState(8000)
   const [winner, setWinner] = useState("");
   const [loser, setLoser] = useState("");
   const [isGameOver, setIsGameOver] = useState(false)
 
-  if (lifePoint1 <=0) {
+  if (lifePoint1 <= 0) {
     setWinner(playerName2)
     setLoser(playerName1)
     setLifePoint1(1) // without this going to be a infinite loop bug. TODO: Find a better way to achieve this
@@ -47,19 +48,20 @@ function App() {
 
   return (
     <ThemeProvider theme={darkTheme}>
-      <CssBaseline />
+      {/* <CssBaseline /> */}
       <ButtonAppBar />
       <Container
         maxWidth="lg"
         component="main"
         sx={{ display: 'flex', flexDirection: 'column', my: 16, gap: 4 }}
       >
+        <NewGameModal player1={playerName1} setPlayerName1={setPlayerName1} player2={playerName2} setPlayerName2/>
         <Grid flexGrow={1} container spacing={12} maxHeight={false} alignItems="center" justifyContent="center">
           <Grid size={6}>
-            <LifePointContainer playerName={playerName1} lifePoint={lifePoint1} setLifePoint={setLifePoint1} />
+            <LifePointContainer playerName={playerName1} setPlayerName={setPlayerName1} lifePoint={lifePoint1} setLifePoint={setLifePoint1} />
           </Grid>
           <Grid size={6}>
-            <LifePointContainer playerName={playerName2} lifePoint={lifePoint2} setLifePoint={setLifePoint2}/>
+            <LifePointContainer playerName={playerName2} setPlayerName={setPlayerName2} lifePoint={lifePoint2} setLifePoint={setLifePoint2}/>
           </Grid>
         </Grid>
         <PostGamePopup 

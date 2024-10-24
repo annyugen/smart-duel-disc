@@ -12,11 +12,17 @@ const styles = theme => ({
   });
   
 
-function LifePointContainer({ playerName, lifePoint, setLifePoint }) {
+function LifePointContainer({ playerName, setPlayerName, lifePoint, setLifePoint }) {
     return (
       <Card sx={{ minWidth: 350 }}>
         <CardContent>
-          <Typography variant="h5" component="div">
+          <Typography 
+            suppressContentEditableWarning 
+            contentEditable
+            onInput={event => setPlayerName(event.target.innerText)} // TODO: Roll with this for now even tho update text sucks until flush out a way to set up the game with player name
+            variant="h5" 
+            component="div" 
+          > 
             {playerName}
           </Typography>
           <Typography variant="h1">
