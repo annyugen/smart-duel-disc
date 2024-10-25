@@ -49,6 +49,12 @@ function LifePointCalculator({ currentLifePoint, setLifePoint }) {
                             let newLP = currentLifePoint + Number(event.target.value)
                             setNewLifePoint(newLP)
                         }}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                setLifePoint(newLifePoint);
+                                handleClose();
+                            }
+                        }}
                     />
                     <Grid flexGrow={1} container spacing={12} maxHeight={false} alignItems="center" justifyContent="center">
                         <Grid size={6}>
