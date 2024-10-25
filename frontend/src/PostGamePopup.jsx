@@ -53,12 +53,17 @@ function PostGamePopup({ winner, loser, isGameOver }) {
 
                 <Box sx={defeatStyle}>
                     <Grid flexGrow={1} container spacing={12} maxHeight={false} alignItems="center" justifyContent="center">
-                        <Grid size={6}>
+                        <Grid size={6} container  direction={"column"} sx={{
+                            justifyContent: "center",
+                            alignItems: "center",
+                        }}>
                             <Typography variant='h5'>{loser}</Typography>
-                            <video controls autoPlay loop width="70%" className="videoPlayer" src={kaibaDefeat}></video>
-
+                            <video style={{ alignContent: 'center' }} controls autoPlay loop width="70%" className="videoPlayer" src={kaibaDefeat}></video>
                         </Grid>
-                        <Grid size={6}>
+                        <Grid size={6} container  direction={"column"} sx={{
+                            justifyContent: "center",
+                            alignItems: "center",
+                        }}>
                             <Typography variant='h5'>{winner}</Typography>
                             <video controls autoPlay loop width="70%" className="videoPlayer" src={joeyVictory}></video>
                         </Grid>

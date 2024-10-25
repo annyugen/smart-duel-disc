@@ -55,7 +55,7 @@ function App() {
         component="main"
         sx={{ display: 'flex', flexDirection: 'column', my: 16, gap: 4 }}
       >
-        <NewGameModal player1={playerName1} setPlayerName1={setPlayerName1} player2={playerName2} setPlayerName2/>
+        <NewGameModal player1={playerName1} setPlayerName1={setPlayerName1} player2={playerName2} setPlayerName2={setPlayerName2}/>
         <Grid flexGrow={1} container spacing={12} maxHeight={false} alignItems="center" justifyContent="center">
           <Grid size={6}>
             <LifePointContainer playerName={playerName1} setPlayerName={setPlayerName1} lifePoint={lifePoint1} setLifePoint={setLifePoint1} />
