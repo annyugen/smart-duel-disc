@@ -1,35 +1,68 @@
+############## Python-OpenCV YuGiOh Card Detector ###############
+#
+# Author: An Nguyen
+# Date: 11/1/24
+# Description: Python script to detect and identify YuGiOh Card
+#
+
 import numpy as np
 import cv2 as cv
+import pytesseract
 
-monster_face_up = cv.imread('/Users/an/workspace/smart-duel-blade/card-detection/samples/monster_face_up_noisy.jpg')
+def main():
+    print("Starting ...")
+    capture = cv.VideoCapture(0)
+    if not capture.isOpened():
+        print("Cannot open camera")
+        exit()
+    while True:
+        ret, frame = capture.read()
+        if not ret:
+            print("Can't receive frame (stream end?). Exiting ...")
+            break
+        detect_card(frame)
 
+        cv.imshow('frame', frame)
+        if cv.waitKey(1) == ord('q'):
+            break
 
-# monster_face_up = cv.resize(monster_face_up, (0, 0), None, .25, .25)
-monster_face_up_gray = cv.cvtColor(monster_face_up, cv.COLOR_BGR2GRAY)
-blurred = cv.medianBlur(monster_face_up_gray, 9)
-ret, threshed = cv.threshold(blurred, 0, 255, cv.THRESH_BINARY+cv.THRESH_OTSU)
-# threshed = cv.erode(threshed, np.ones((21,21)))
-threshed = cv.morphologyEx(threshed, cv.MORPH_OPEN, np.ones((3,3), np.uint8))
-
-contours, hierarchy = cv.findContours(threshed, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
-
-# filter contours
-for i, c in enumerate(contours):
-    areaContour = cv.contourArea(c)
-    if areaContour < 90000 and areaContour < 100000:
-        continue
-    cv.drawContours(monster_face_up, contours, i, (0, 255, 0), 5)
-
-threshed_monster_face_up_gray_3_channel = cv.cvtColor(threshed, cv.COLOR_GRAY2BGR)
-blurred_3_channel = cv.cvtColor(blurred, cv.COLOR_GRAY2BGR)
-
-numpy_horizontal = np.hstack((monster_face_up, threshed_monster_face_up_gray_3_channel, blurred_3_channel))
-horizontal_concat = np.concatenate((monster_face_up, threshed_monster_face_up_gray_3_channel, blurred_3_channel), axis=1)
-cv.imshow('Numpy Horizontal Concat', horizontal_concat)
-
-k = cv.waitKey(0)
-if (k == 'q'):
+    capture.release()
     cv.destroyAllWindows()
 
-cv.destroyAllWindows()
+def detect_card(frame):
+    gray_frame = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
+    blurred_frame = cv.GaussianBlur(gray_frame, (5,5), 0)
+    threshed_frame = cv.threshold(blurred_frame, 0, 255, cv.THRESH_BINARY_INV+cv.THRESH_OTSU)[1]
+    contours = cv.findContours(threshed_frame, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)[0]
+    cv.drawContours(frame, contours, -1, (0, 255, 0), 2)
 
+    
+    # filter contours
+    for c in contours:
+        x,y,w,h = cv.boundingRect(c)
+        areaContour = cv.contourArea(c)
+        if areaContour < 100000 and areaContour < 150000:
+            continue
+
+        monster_name = gray_frame[y:y+(int(h/8)), x:x+(w-(int(w/5)))]
+        monster_name_thresh = cv.threshold(monster_name, 0, 255, cv.THRESH_BINARY+cv.THRESH_OTSU)[1]
+        if monster_name_thresh is not None:
+            cv.imshow('Monster Name', monster_name_thresh)
+            name = pytesseract.image_to_string(monster_name_thresh, lang='eng', config='--psm 6')
+            print(name)
+        
+
+        
+def resize_with_aspect_ratio(image, width=None, height=None, inter=cv.INTER_AREA):
+    h, w = image.shape[:2]
+    aspect_ratio = w/h
+    if width is None:
+        new_height = int(height / aspect_ratio)
+        resized_image = cv.resize(image, (height, new_height))
+    else:
+        new_width = int(width * aspect_ratio)
+        resized_image = cv.resize(image, (new_width, width))
+    return resized_image
+
+if __name__ == '__main__':
+    main()
