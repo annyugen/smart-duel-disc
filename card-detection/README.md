@@ -3,4 +3,4 @@ Using only OpenCV to detect cards and identify card by its name using Pytesserac
 
 
 ### Demo
-![demo](https://github.com/annyugen/smart-duel-disc/blob/main/card-detection/YugiohFirstDetection.mov)
+![demo gif](https://github.com/annyugen/smart-duel-disc/blob/main/card-detection/YugiohFirstDetection.gif)
