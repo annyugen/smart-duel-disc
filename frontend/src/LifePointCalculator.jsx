@@ -26,6 +26,8 @@ function LifePointCalculator({ currentLifePoint, setLifePoint }) {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
+    const [focus, setFocus] = useState(false);
+
     const [newLifePoint, setNewLifePoint] = useState(currentLifePoint);
 
     return (
@@ -45,14 +47,17 @@ function LifePointCalculator({ currentLifePoint, setLifePoint }) {
                         id="outlined-number"
                         label="Life Point Change"
                         type="number"
+                        focused
+                        autoFocus
                         onChange={(event) => {
                             let newLP = currentLifePoint + Number(event.target.value)
                             setNewLifePoint(newLP)
                         }}
                         onKeyDown={(e) => {
                             if (e.key === 'Enter') {
-                                setLifePoint(newLifePoint);
-                                handleClose();
+                                e.preventDefault()
+                                setLifePoint(newLifePoint)
+                                handleClose()
                             }
                         }}
                     />

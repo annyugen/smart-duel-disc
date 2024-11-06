@@ -4,7 +4,8 @@ import App from './App.jsx'
 import './index.css'
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
+  // Disabling strict mode so TextField autofocus can work. A MUI bug https://stackoverflow.com/a/78192677/15047675
+  // <StrictMode>
     <App />
-  </StrictMode>,
+  // </StrictMode>,
 )

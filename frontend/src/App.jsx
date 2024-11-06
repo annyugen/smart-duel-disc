@@ -28,8 +28,8 @@ const styles = theme => ({
 function App() {
   const [playerName1, setPlayerName1] = useState('Player 1')
   const [playerName2, setPlayerName2] = useState('Player 2')
-  const [lifePoint1, setLifePoint1] = useState(8000)
-  const [lifePoint2, setLifePoint2] = useState(8000)
+  const [lifePoint1, setLifePoint1] = useState(4000)
+  const [lifePoint2, setLifePoint2] = useState(4000)
   const [winner, setWinner] = useState("");
   const [loser, setLoser] = useState("");
   const [isGameOver, setIsGameOver] = useState(false)
