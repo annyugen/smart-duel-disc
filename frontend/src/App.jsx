@@ -9,6 +9,7 @@ import Toolbar from '@mui/material/Toolbar';
 import LifePointContainer from './LifePointContainer';
 import PostGamePopup from './PostGamePopup';
 import NewGameModal from './NewGameModal';
+import WebcamContainer from './WebcamContainer';
 
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -64,6 +65,7 @@ function App() {
             <LifePointContainer playerName={playerName2} setPlayerName={setPlayerName2} lifePoint={lifePoint2} setLifePoint={setLifePoint2}/>
           </Grid>
         </Grid>
+        <WebcamContainer/>
         <PostGamePopup 
           winner={winner}
           loser={loser}

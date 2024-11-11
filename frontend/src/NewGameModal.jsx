@@ -2,21 +2,22 @@ import { useState, useEffect } from "react";
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
-import Typography from "@mui/material/Typography";
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 
-
-
 function NewGameModal({ player1, setPlayerName1, player2, setPlayerName2 }) {
+    const [internalPlayer1Name, setInternalPlayerName1] = useState('');
+    const [internalPlayer2Name, setInternalPlayerName2] = useState('');
+    useEffect(() => {
+        setInternalPlayerName1(player1);
+        setInternalPlayerName2(player2);
+    }, [player1, player2])
+
     const [open, setOpen] = useState(false);
     const openModal = () => setOpen(true);
     const closeModal = () => setOpen(false);
-    
-    const [internalPlayer1Name, setInternalPlayerName1] = useState('');
-    const [internalPlayer2Name, setInternalPlayerName2] = useState('');
 
     const [playerToGoFirst, setPlayerToGoFirst] = useState('');
     const [firstTurnDialogOpen, setFirstTurnDialogOpen] = useState(false);
