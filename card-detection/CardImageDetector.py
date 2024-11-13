@@ -1,6 +1,6 @@
 import cv2 as cv
 
-img = cv.imread('/Users/an/workspace/smart-duel-blade/card-detection/samples/monster_face_up_noisy.jpg')
+img = cv.imread('./card-detection/samples/monster_face_up_noisy.jpg')
 img_gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
 blurred = cv.medianBlur(img_gray, 9)
 ret, threshed = cv.threshold(blurred, 0, 255, cv.THRESH_BINARY+cv.THRESH_OTSU)
